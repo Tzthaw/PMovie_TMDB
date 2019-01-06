@@ -26,25 +26,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ReviewRepository private constructor(context: Context): BaseRepository() {
 
-    protected var theApi: MovieApi
-
-    init {
-        val logger = HttpLoggingInterceptor()
-        logger.level = HttpLoggingInterceptor.Level.BASIC
-        val client = OkHttpClient.Builder()
-            .addInterceptor(logger)
-            .build()
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_REVIEW_URL)
-            .addConverterFactory(GsonConverterFactory.create(Gson()))
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .client(client)
-            .build()
-
-        theApi = retrofit.create<MovieApi>(MovieApi::class.java)
-    }
-
     companion object {
         var INSTANCE: ReviewRepository? = null
         fun getInstance(): ReviewRepository {
@@ -65,7 +46,7 @@ class ReviewRepository private constructor(context: Context): BaseRepository() {
         reviewListLD:MutableLiveData<List<ReviewItem>>,
         errorLD:MutableLiveData<Error>
     ){
-        theApi.fetchReviews(movieID)
+        mTheApi.fetchReviews(movieID)
             .subscribeOn(scheduler)
             .observeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())

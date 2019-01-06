@@ -2,6 +2,7 @@ package com.mmgoogleexpert.ptut.pmovie_tmdb.network
 
 import com.mmgoogleexpert.ptut.pmovie_tmdb.network.response.GetMovieListResponse
 import com.mmgoogleexpert.ptut.pmovie_tmdb.network.response.GetReviewResponse
+import com.mmgoogleexpert.ptut.pmovie_tmdb.network.response.GetTrailerListResponse
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -29,8 +30,11 @@ interface MovieApi{
         @Query("page") page: Int
     ): Observable<GetMovieListResponse>
 
-    @GET("/3/movie/{movie_id}/reviews?api_key=db85bc6bf1d96e2f47ac91af80e1d717")
+    @GET("movie/{movie_id}/reviews?api_key=db85bc6bf1d96e2f47ac91af80e1d717")
     fun fetchReviews(@Path("movie_id") id: Int): Observable<GetReviewResponse>
+
+    @GET("movie/{movie_id}/videos?api_key=db85bc6bf1d96e2f47ac91af80e1d717")
+    fun fetchVideo(@Path("movie_id")id:Int):Observable<GetTrailerListResponse>
 
     @GET("search/movie")
     fun getSearchMovieList(

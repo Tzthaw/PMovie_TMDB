@@ -5,35 +5,45 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.bumptech.glide.Glide
 import com.mmgoogleexpert.ptut.pmovie_tmdb.R
 import com.mmgoogleexpert.ptut.pmovie_tmdb.adapters.ReviewAdapter
+import com.mmgoogleexpert.ptut.pmovie_tmdb.adapters.TrailerVideoAdapter
 import com.mmgoogleexpert.ptut.pmovie_tmdb.inject.Injection
 import com.mmgoogleexpert.ptut.pmovie_tmdb.mvp.presenters.MoviePresenter
 import com.mmgoogleexpert.ptut.pmovie_tmdb.mvp.presenters.ReviewPresenter
+import com.mmgoogleexpert.ptut.pmovie_tmdb.mvp.presenters.TrailerPresenter
 import com.mmgoogleexpert.ptut.pmovie_tmdb.mvp.views.ReviewRecyclerView
+import com.mmgoogleexpert.ptut.pmovie_tmdb.mvp.views.TrailerView
 import com.mmgoogleexpert.ptut.pmovie_tmdb.network.response.MovieItem
 import com.mmgoogleexpert.ptut.pmovie_tmdb.network.response.ReviewItem
-import com.mmgoogleexpert.ptut.pmovie_tmdb.utils.BASE_IMG_URL
-import com.mmgoogleexpert.ptut.pmovie_tmdb.utils.lazyAndroid
-import com.mmgoogleexpert.ptut.pmovie_tmdb.utils.requestGlideListener
-import com.mmgoogleexpert.ptut.pmovie_tmdb.utils.setUpRecycler
+import com.mmgoogleexpert.ptut.pmovie_tmdb.network.response.TrailerItem
+import com.mmgoogleexpert.ptut.pmovie_tmdb.utils.*
 import com.mmgoogleexpert.ptut.shared.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_movie_detail.*
 import kotlinx.android.synthetic.main.layout_detail_body.*
 import kotlinx.android.synthetic.main.layout_detail_header.*
 
-class MovieDetailActivity:BaseActivity(),ReviewRecyclerView {
+class MovieDetailActivity:BaseActivity(),ReviewRecyclerView,TrailerView {
+
+
     private lateinit var movieItem: MovieItem
     private val reviewPresenter by lazyAndroid {
         ViewModelProviders.of(this,
             Injection.provideViewModelFactoryReview(ReviewPresenter()))
             .get(ReviewPresenter::class.java)
     }
+    private val trailerPresenter by lazyAndroid {
+        ViewModelProviders.of(this,
+            Injection.provideViewModelFactoryTrailer(TrailerPresenter()))
+            .get(TrailerPresenter::class.java)
+    }
     private val reviewAdapter by lazyAndroid { ReviewAdapter() }
+    private val trailerAdapter by lazyAndroid{ TrailerVideoAdapter(trailerPresenter)}
 
     companion object {
         fun newIntent(context: Context,movieItem: MovieItem):Intent{
@@ -52,8 +62,20 @@ class MovieDetailActivity:BaseActivity(),ReviewRecyclerView {
         setSupportActionBar(movieDetailToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        setUpReviewRecycler(movieItem)
+        setUpTrailerRecycler(movieItem)
+        setUpUiComponentDetail(movieItem)
+
+        movieDetailToolbar.setNavigationOnClickListener {
+            onBackPressed()
+        }
+
+    }
+
+    private fun setUpReviewRecycler(item:MovieItem){
+        //Review Recycler
         reviewPresenter.initPresenter(this)
-        reviewPresenter.onNotifyCallReview(movieItem.id!!)
+        reviewPresenter.onNotifyCallReview(item.id!!)
         detailReviewRecycler.setUpRecycler(this)
         detailReviewRecycler.adapter=reviewAdapter
         reviewPresenter.reviewListLD?.observe(this, Observer<List<ReviewItem>>{
@@ -61,11 +83,19 @@ class MovieDetailActivity:BaseActivity(),ReviewRecyclerView {
             detail_body_reviews.visibility=View.VISIBLE
             reviewAdapter.submitList(it)
         })
+    }
 
-        movieDetailToolbar.setNavigationOnClickListener {
-            onBackPressed()
-        }
-        setUpUiComponentDetail(movieItem)
+    private fun setUpTrailerRecycler(item:MovieItem){
+        //Trailer Recycler
+        trailerPresenter.initPresenter(this)
+        trailerPresenter.onNotifyCallTrailerVideo(item.id!!)
+        detailTrailerRecycler.setUpHorizontalRecycler(this)
+        detailTrailerRecycler.adapter=trailerAdapter
+        trailerPresenter.trailerListLD?.observe(this,Observer<List<TrailerItem>>{
+            detailTrailerRecycler.visibility=View.VISIBLE
+            detailBodyTrailers.visibility=View.VISIBLE
+            trailerAdapter.submitList(it)
+        })
     }
 
     @SuppressLint("SetTextI18n")
@@ -82,5 +112,11 @@ class MovieDetailActivity:BaseActivity(),ReviewRecyclerView {
                 .listener(requestGlideListener(movieImage))
                 .into(movieImage)
         }
+    }
+
+    override fun onLunchTrailer(trailerUrl: String) {
+        val i = Intent(Intent.ACTION_VIEW)
+        i.data = Uri.parse(trailerUrl)
+        startActivity(i)
     }
 }

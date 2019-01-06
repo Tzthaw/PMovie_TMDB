@@ -4,9 +4,11 @@ import android.arch.lifecycle.ViewModelProvider
 import com.mmgoogleexpert.ptut.pmovie_tmdb.inject.viewmodelproviders.MovieViewModelProvider
 import com.mmgoogleexpert.ptut.pmovie_tmdb.inject.viewmodelproviders.ReviewViewModelProvider
 import com.mmgoogleexpert.ptut.pmovie_tmdb.inject.viewmodelproviders.SearchViewModelProvider
+import com.mmgoogleexpert.ptut.pmovie_tmdb.inject.viewmodelproviders.TrailerViewModelProvider
 import com.mmgoogleexpert.ptut.pmovie_tmdb.mvp.presenters.MoviePresenter
 import com.mmgoogleexpert.ptut.pmovie_tmdb.mvp.presenters.ReviewPresenter
 import com.mmgoogleexpert.ptut.pmovie_tmdb.mvp.presenters.SearchMoviePresenter
+import com.mmgoogleexpert.ptut.pmovie_tmdb.mvp.presenters.TrailerPresenter
 
 object Injection {
     fun provideViewModelFactoryPopular(categoryPresenter: MoviePresenter): ViewModelProvider.Factory {
@@ -19,5 +21,9 @@ object Injection {
 
     fun provideViewModelFactoryReview(reviewPresenter: ReviewPresenter): ViewModelProvider.Factory {
         return ReviewViewModelProvider(reviewPresenter)
+    }
+
+    fun provideViewModelFactoryTrailer(trailerPresenter: TrailerPresenter): ViewModelProvider.Factory {
+        return TrailerViewModelProvider(trailerPresenter)
     }
 }

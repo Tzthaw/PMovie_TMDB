@@ -2,10 +2,10 @@ package com.mmgoogleexpert.ptut.pmovie_tmdb.repository
 
 import android.arch.lifecycle.MutableLiveData
 import android.content.Context
+import com.mmgoogleexpert.ptut.pmovie_tmdb.BuildConfig
 import com.mmgoogleexpert.ptut.pmovie_tmdb.network.response.GetMovieListResponse
 import com.mmgoogleexpert.ptut.pmovie_tmdb.network.response.MovieItem
 import com.mmgoogleexpert.ptut.pmovie_tmdb.utils.LANGUAGE
-import com.mmgoogleexpert.ptut.pmovie_tmdb.utils.api_key
 import com.mmgoogleexpert.ptut.pmovie_tmdb.utils.page_id
 import com.mmgoogleexpert.ptut.pmovie_tmdb.utils.scheduler
 import com.mmgoogleexpert.ptut.shared.data.EmptyError
@@ -39,7 +39,7 @@ class MovieRepository private constructor(context: Context): BaseRepository() {
         popularMovieListLD:MutableLiveData<List<MovieItem>>,
         errorLD:MutableLiveData<Error>
     ){
-        mTheApi.getPopularMovies(api_key, LANGUAGE, page_id)
+        mTheApi.getPopularMovies(BuildConfig.TMDB_API_KEY, LANGUAGE, page_id)
             .subscribeOn(scheduler)
             .observeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
@@ -63,7 +63,7 @@ class MovieRepository private constructor(context: Context): BaseRepository() {
         popularMovieListLD:MutableLiveData<List<MovieItem>>,
         errorLD:MutableLiveData<Error>
     ){
-        mTheApi.getTopRatedMovies(api_key, LANGUAGE, page_id)
+        mTheApi.getTopRatedMovies(BuildConfig.TMDB_API_KEY, LANGUAGE, page_id)
             .subscribeOn(scheduler)
             .observeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
@@ -87,7 +87,7 @@ class MovieRepository private constructor(context: Context): BaseRepository() {
         popularMovieListLD:MutableLiveData<List<MovieItem>>,
         errorLD:MutableLiveData<Error>
     ){
-        mTheApi.getUpcomingMovies(api_key, LANGUAGE, page_id)
+        mTheApi.getUpcomingMovies(BuildConfig.TMDB_API_KEY, LANGUAGE, page_id)
             .subscribeOn(scheduler)
             .observeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())

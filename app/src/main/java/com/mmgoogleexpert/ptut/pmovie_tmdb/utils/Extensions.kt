@@ -50,6 +50,12 @@ fun RecyclerView.setUpRecycler(context: Context){
     adapter?.notifyDataSetChanged()
 }
 
+fun RecyclerView.setUpHorizontalRecycler(context: Context){
+    hasFixedSize()
+    layoutManager=LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
+    adapter?.notifyDataSetChanged()
+}
+
 fun  SmartRecyclerView.setUpGrid(context: Context,emptyViewPod: EmptyViewPod){
     hasFixedSize()
     layoutManager=GridLayoutManager(context,2)

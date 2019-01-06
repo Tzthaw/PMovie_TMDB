@@ -2,9 +2,10 @@ package com.mmgoogleexpert.ptut.pmovie_tmdb.repository
 
 import android.arch.lifecycle.MutableLiveData
 import android.content.Context
-import com.mmgoogleexpert.ptut.pmovie_tmdb.BuildConfig
-import com.mmgoogleexpert.ptut.pmovie_tmdb.network.response.GetMovieListResponse
-import com.mmgoogleexpert.ptut.pmovie_tmdb.network.response.MovieItem
+import com.mmgoogleexpert.ptut.pmovie_tmdb.network.response.GetReviewResponse
+import com.mmgoogleexpert.ptut.pmovie_tmdb.network.response.GetTrailerListResponse
+import com.mmgoogleexpert.ptut.pmovie_tmdb.network.response.ReviewItem
+import com.mmgoogleexpert.ptut.pmovie_tmdb.network.response.TrailerItem
 import com.mmgoogleexpert.ptut.pmovie_tmdb.utils.scheduler
 import com.mmgoogleexpert.ptut.shared.data.EmptyError
 import com.mmgoogleexpert.ptut.shared.data.Error
@@ -14,37 +15,37 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class SearchMovieRepository private constructor(context: Context): BaseRepository() {
+class TrailerRepository private constructor(context: Context): BaseRepository() {
     companion object {
-        var INSTANCE: SearchMovieRepository? = null
-        fun getInstance(): SearchMovieRepository {
+        var INSTANCE: TrailerRepository? = null
+        fun getInstance(): TrailerRepository {
             if (INSTANCE == null) {
-                throw RuntimeException("SearchMovieRepository is being invoked before initializing")
+                throw RuntimeException("TrailerRepository is being invoked before initializing")
             }
             val i = INSTANCE
             return i!!
         }
 
         fun inintRepository(context: Context) {
-            INSTANCE = SearchMovieRepository(context)
+            INSTANCE = TrailerRepository(context)
         }
     }
 
-    fun getSearchMovieList(
-        movieName:String,
-        searchMovieListLD: MutableLiveData<List<MovieItem>>,
-        errorLD: MutableLiveData<Error>
+    fun getAllTrailerList(
+        movieId:Int,
+        trailerListLD:MutableLiveData<List<TrailerItem>>,
+        errorLD:MutableLiveData<Error>
     ){
-        mTheApi.getSearchMovieList(BuildConfig.TMDB_API_KEY, movieName)
+        mTheApi.fetchVideo(movieId)
             .subscribeOn(scheduler)
             .observeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<GetMovieListResponse> {
+            .subscribe(object : Observer<GetTrailerListResponse> {
                 override fun onComplete() {}
                 override fun onSubscribe(d: Disposable) {}
-                override fun onNext(getMovieResponse: GetMovieListResponse) {
-                    if(getMovieResponse.results!!.isNotEmpty() ){
-                        searchMovieListLD.value= getMovieResponse.results as List<MovieItem>?
+                override fun onNext(getTrailerListResponse: GetTrailerListResponse) {
+                    if(getTrailerListResponse.results!!.isNotEmpty() ){
+                        trailerListLD.value= getTrailerListResponse.results as List<TrailerItem>?
                     }else{
                         errorLD.value= EmptyError("No Data")
                     }
