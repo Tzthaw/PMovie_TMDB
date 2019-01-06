@@ -4,7 +4,7 @@ import android.util.Log
 import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.mmgoogleexpert.ptut.listitemcodelab.viewholders.BaseViewHolder
+import com.mmgoogleexpert.ptut.shared.ui.BaseViewHolder
 import com.mmgoogleexpert.ptut.pmovie_tmdb.R
 import com.mmgoogleexpert.ptut.pmovie_tmdb.deligate.onTapMovie
 import com.mmgoogleexpert.ptut.pmovie_tmdb.network.response.MovieItem

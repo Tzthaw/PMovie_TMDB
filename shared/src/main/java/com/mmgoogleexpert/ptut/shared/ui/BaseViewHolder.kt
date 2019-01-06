@@ -1,4 +1,4 @@
-package com.mmgoogleexpert.ptut.listitemcodelab.viewholders
+package com.mmgoogleexpert.ptut.shared.ui
 
 import android.support.annotation.CallSuper
 import android.support.v7.widget.RecyclerView

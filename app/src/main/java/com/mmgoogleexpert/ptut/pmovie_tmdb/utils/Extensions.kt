@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewAnimationUtils
@@ -43,16 +44,16 @@ val executor = Executors.newFixedThreadPool(threadCt)!!
 val scheduler = Schedulers.from(executor)
 
 
-fun SmartRecyclerView.setUpRecycler(context: Context, emptyViewPod: EmptyViewPod){
+fun RecyclerView.setUpRecycler(context: Context){
     hasFixedSize()
     layoutManager=LinearLayoutManager(context)
-    val ctx = this.context
-    val controller =
-            AnimationUtils.loadLayoutAnimation(ctx, R.anim.layout_animation_falldown)
-    layoutAnimation = controller
     adapter?.notifyDataSetChanged()
-    scheduleLayoutAnimation()
-    setEmptyView(emptyViewPod)
+}
+
+fun RecyclerView.setUpHorizontalRecycler(context: Context){
+    hasFixedSize()
+    layoutManager=LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
+    adapter?.notifyDataSetChanged()
 }
 
 fun  SmartRecyclerView.setUpGrid(context: Context,emptyViewPod: EmptyViewPod){
@@ -88,30 +89,11 @@ inline fun <reified T : ViewModel> FragmentActivity.getViewModel(): T {
 fun ViewGroup.inflate(layoutId: Int): View = LayoutInflater.from(this.context).inflate(layoutId, this, false)
 
 
-fun randomColor(view: View) {
-    val androidColors = view.resources.getIntArray(R.array.androidcolors)
-    val randomAndroidColor = androidColors[Random().nextInt(androidColors.size)]
-    view.setBackgroundColor(randomAndroidColor)
-}
-
-@SuppressLint("SimpleDateFormat")
-fun prettyTime(string: String): String {
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd kk:mm:ss")
-    val date = dateFormat.parse(string)
-    return "$date"
-}
-
 inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> FragmentTransaction) {
     beginTransaction().func().addToBackStack(null).commit()
 }
 
 
-fun AppCompatActivity.replaceFragment( frameId: Int,fragment: Fragment) {
-    supportFragmentManager.inTransaction{ replace(frameId, fragment)}
-}
-
-val Context.networkInfo: NetworkInfo? get() =
-    (this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).activeNetworkInfo
 
 fun Activity.checkIsMaterialVersion() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
 fun Activity.circularRevealedAtCenter(view: View) {

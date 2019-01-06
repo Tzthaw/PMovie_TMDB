@@ -3,7 +3,20 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
-
+def getProperty(String filename, String propName) {
+    def propsFile = rootProject.file(filename)
+    if (propsFile.exists()) {
+        def props = new Properties()
+        props.load(new FileInputStream(propsFile))
+        if (props[propName] != null) {
+            return props[propName]
+        } else {
+            print("No such property " + propName + " in file " + filename);
+        }
+    } else {
+        print(filename + " does not exist!")
+    }
+}
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -14,6 +27,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        buildConfigField "String", "TMDB_API_KEY", "\"${getProperty("pmovie_apikey.properties", "tmdb_api_key")}\""
     }
     buildTypes {
         release {
@@ -56,7 +70,6 @@ dependencies {
     implementation 'com.android.volley:volley:1.1.0'
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
-    implementation "co.lujun:androidtagview:1.1.4"
     implementation "com.ms-square:expandableTextView:0.1.4"
     implementation project(path: ':shared')
 }

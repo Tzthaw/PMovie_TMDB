@@ -49,6 +49,26 @@
             android:fontFamily="@font/quicksand_medium"
             android:layout_marginTop="12dp"
             tools:text="Summary"/>
+    <TextView
+            android:id="@+id/detailBodyTrailers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/quicksand_bold"
+            android:text="Trailers"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="23dp"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/detailTrailerRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:visibility="gone"
+            tools:visibility="visible"/>
 
     <!--<co.lujun.androidtagview.TagContainerLayout-->
         <!--android:id="@+id/detail_body_tags"-->
