@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewAnimationUtils
@@ -43,16 +44,10 @@ val executor = Executors.newFixedThreadPool(threadCt)!!
 val scheduler = Schedulers.from(executor)
 
 
-fun SmartRecyclerView.setUpRecycler(context: Context, emptyViewPod: EmptyViewPod){
+fun RecyclerView.setUpRecycler(context: Context){
     hasFixedSize()
     layoutManager=LinearLayoutManager(context)
-    val ctx = this.context
-    val controller =
-            AnimationUtils.loadLayoutAnimation(ctx, R.anim.layout_animation_falldown)
-    layoutAnimation = controller
     adapter?.notifyDataSetChanged()
-    scheduleLayoutAnimation()
-    setEmptyView(emptyViewPod)
 }
 
 fun  SmartRecyclerView.setUpGrid(context: Context,emptyViewPod: EmptyViewPod){
