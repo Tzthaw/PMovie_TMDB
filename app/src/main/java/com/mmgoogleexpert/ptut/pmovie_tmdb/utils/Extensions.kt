@@ -89,30 +89,11 @@ inline fun <reified T : ViewModel> FragmentActivity.getViewModel(): T {
 fun ViewGroup.inflate(layoutId: Int): View = LayoutInflater.from(this.context).inflate(layoutId, this, false)
 
 
-fun randomColor(view: View) {
-    val androidColors = view.resources.getIntArray(R.array.androidcolors)
-    val randomAndroidColor = androidColors[Random().nextInt(androidColors.size)]
-    view.setBackgroundColor(randomAndroidColor)
-}
-
-@SuppressLint("SimpleDateFormat")
-fun prettyTime(string: String): String {
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd kk:mm:ss")
-    val date = dateFormat.parse(string)
-    return "$date"
-}
-
 inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> FragmentTransaction) {
     beginTransaction().func().addToBackStack(null).commit()
 }
 
 
-fun AppCompatActivity.replaceFragment( frameId: Int,fragment: Fragment) {
-    supportFragmentManager.inTransaction{ replace(frameId, fragment)}
-}
-
-val Context.networkInfo: NetworkInfo? get() =
-    (this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).activeNetworkInfo
 
 fun Activity.checkIsMaterialVersion() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
 fun Activity.circularRevealedAtCenter(view: View) {
