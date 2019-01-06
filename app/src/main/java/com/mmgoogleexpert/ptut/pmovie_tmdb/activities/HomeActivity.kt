@@ -4,7 +4,10 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.support.annotation.RequiresApi
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.PopupMenu
 import com.mmgoogleexpert.ptut.pmovie_tmdb.R
 import com.mmgoogleexpert.ptut.pmovie_tmdb.components.EmptyViewPod
@@ -22,7 +25,9 @@ import kotlinx.android.synthetic.main.app_bar_content_movie.*
 import kotlinx.android.synthetic.main.fragment_content_movie.*
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import com.mmgoogleexpert.ptut.pmovie_tmdb.adapters.MovieAdapter
+import kotlinx.android.synthetic.main.view_movie_item.*
 
 class HomeActivity :
     BaseActivity(),
@@ -139,7 +144,9 @@ class HomeActivity :
         }
     }
 
-    override fun onLunchMovieDetail(movieItem: MovieItem) {
-        startActivity(MovieDetailActivity.newIntent(applicationContext,movieItem))
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    override fun onLunchMovieDetail(movieItem: MovieItem, imageView:ImageView) {
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, imageView, imageView.transitionName)
+        startActivity(MovieDetailActivity.newIntent(applicationContext,movieItem),options.toBundle())
     }
 }

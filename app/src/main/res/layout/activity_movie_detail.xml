@@ -25,10 +25,11 @@
             app:expandedTitleTextAppearance="@style/CollapsedExpandedTitleText">
 
             <ImageView
-                android:id="@+id/movieDetailPoster"
+                android:id="@+id/movieImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
+                android:transitionName="movieDetailImage"
                 app:layout_collapseMode="parallax"/>
 
             <android.support.v7.widget.Toolbar
@@ -48,8 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="@dimen/margin_medium"
-        >
+            android:padding="@dimen/margin_medium">
 
             <include layout="@layout/layout_detail_header"/>
 

@@ -1,6 +1,7 @@
 package com.mmgoogleexpert.ptut.pmovie_tmdb.mvp.presenters
 
 import android.arch.lifecycle.MutableLiveData
+import android.widget.ImageView
 import com.mmgoogleexpert.ptut.pmovie_tmdb.deligate.onTapMovie
 import com.mmgoogleexpert.ptut.pmovie_tmdb.mvp.views.HomeScreenView
 import com.mmgoogleexpert.ptut.pmovie_tmdb.network.response.MovieItem
@@ -21,7 +22,7 @@ class SearchMoviePresenter:BasePresenter<HomeScreenView>(),onTapMovie {
     var searchMovieListLD:MutableLiveData<List<MovieItem>>? = null
         get() = mSearchMovieListLD
 
-    override fun onTapClick(movieItem: MovieItem) {
-        mView.onLunchMovieDetail(movieItem)
+    override fun onTapClick(movieItem: MovieItem,imageView: ImageView) {
+        mView.onLunchMovieDetail(movieItem,imageView)
     }
 }

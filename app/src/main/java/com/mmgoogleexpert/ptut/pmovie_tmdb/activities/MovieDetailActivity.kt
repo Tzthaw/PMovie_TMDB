@@ -50,10 +50,9 @@ class MovieDetailActivity:BaseActivity() {
         detailVoteAverage.text="Vote Average : ${item.voteAverage}"
         item.backdropPath.let {
             Glide.with(this).load("$BASE_IMG_URL$it")
-                .listener(requestGlideListener(movieDetailPoster))
-                .into(movieDetailPoster)
+                .listener(requestGlideListener(movieImage))
+                .into(movieImage)
         }
-        Log.e("backdrop","$BASE_IMG_URL${item.backdropPath}")
 
 
     }

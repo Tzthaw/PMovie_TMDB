@@ -12,15 +12,18 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme" tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.HomeActivity" >
+        <activity android:name=".activities.HomeActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MovieDetailActivity"/>
-        <activity android:name=".activities.SearchMovieActivity"/>
+        <activity android:name=".activities.MovieDetailActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".activities.SearchMovieActivity"
+                  android:screenOrientation="portrait"/>
         <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts"/>
     </application>
 

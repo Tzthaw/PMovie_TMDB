@@ -4,11 +4,15 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.support.annotation.RequiresApi
+import android.support.v4.app.ActivityOptionsCompat
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import com.mmgoogleexpert.ptut.pmovie_tmdb.R
 import com.mmgoogleexpert.ptut.pmovie_tmdb.adapters.SearchMovieAdapter
 import com.mmgoogleexpert.ptut.pmovie_tmdb.components.EmptyViewPod
@@ -126,7 +130,9 @@ class SearchMovieActivity:
             }
         }
     }
-    override fun onLunchMovieDetail(movieItem: MovieItem) {
-        startActivity(MovieDetailActivity.newIntent(this,movieItem))
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    override fun onLunchMovieDetail(movieItem: MovieItem, imageView: ImageView) {
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, imageView, imageView.transitionName)
+        startActivity(MovieDetailActivity.newIntent(this,movieItem),options.toBundle())
     }
 }
